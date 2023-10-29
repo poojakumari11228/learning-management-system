@@ -29,6 +29,10 @@ public class Student {
     @NotBlank(message = "last name is required")
     private String lastName;
 
+    @Column(nullable=false)
+    @NotBlank(message = "contact is required")
+    private String phone;
+
     @ManyToMany
     @JoinTable(
             name = "student_course",
@@ -37,4 +41,9 @@ public class Student {
     )
     private Set<Course> courses = new HashSet<>();
 
+    public Student(String firstName, String lastName, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+    }
 }
