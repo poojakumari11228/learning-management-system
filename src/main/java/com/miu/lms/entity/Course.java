@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,15 @@ public class Course {
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     Teacher teacher;
+
+    @ManyToMany
+    @JoinTable(
+            name = "course_prerequisite",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "prerequisite_id")
+    )
+    private Set<Course> prerequisites = new HashSet<>();
+
 
 
 }
