@@ -48,4 +48,11 @@ public class Course {
 
     private Date creationDate;
 
+    public Course(String name, String code, String desc, Date date) {
+        this.name = name ;
+        this.code = code ;
+        this.creationDate= date;
+        this.description = desc;
+    }
+
 }

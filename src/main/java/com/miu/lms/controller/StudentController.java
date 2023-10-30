@@ -1,5 +1,6 @@
 package com.miu.lms.controller;
 
+import com.miu.lms.constants.ApiController;
 import com.miu.lms.dto.student.StudentRequest;
 import com.miu.lms.entity.Student;
 import com.miu.lms.service.StudentService;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/students")
+@RequestMapping(ApiController.STUDENT_ENDPOINT)
 public class StudentController {
     private final StudentService studentService;
     @Autowired
