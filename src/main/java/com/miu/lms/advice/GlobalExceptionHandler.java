@@ -1,6 +1,7 @@
 package com.miu.lms.advice;
 
 import com.miu.lms.exceptions.CourseNotFound;
+import com.miu.lms.exceptions.TeacherNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,7 +14,15 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     @ExceptionHandler(CourseNotFound.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Map<String, String> handlePatientNotFoundException(CourseNotFound publisherNotFoundException) {
+    public Map<String, String> handleCourseNotFoundException(CourseNotFound publisherNotFoundException) {
+        Map<String , String> errorMessageMap = new HashMap<>();
+        errorMessageMap.put("errorMessage", publisherNotFoundException.getMessage());
+        return errorMessageMap;
+    }
+
+    @ExceptionHandler(TeacherNotFound.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, String> handleTeacherNotFoundException(TeacherNotFound publisherNotFoundException) {
         Map<String , String> errorMessageMap = new HashMap<>();
         errorMessageMap.put("errorMessage", publisherNotFoundException.getMessage());
         return errorMessageMap;

@@ -21,7 +21,6 @@ import java.util.List;
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
     private Long userId;
     @Column(nullable=false)
@@ -34,7 +33,15 @@ public class Teacher {
     @OneToMany(mappedBy = "teacher")
     private List<Course> courses;
 
+    private String phone;
+
     private Date creationDate;
 
+    public Teacher(String firstName, String lastName,String phone, Date creationDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.creationDate = creationDate;
+        this.phone = phone;
+    }
 
 }
