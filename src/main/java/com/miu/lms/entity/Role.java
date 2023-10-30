@@ -9,6 +9,7 @@ import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -22,6 +23,7 @@ public class Role {
     private String role;
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
+    private Date creationDate;
     public Role(String role) {
         this.role = role;
     }

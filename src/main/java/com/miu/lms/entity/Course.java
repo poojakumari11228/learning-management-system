@@ -10,11 +10,15 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Course {
@@ -42,6 +46,6 @@ public class Course {
     )
     private Set<Course> prerequisites = new HashSet<>();
 
-
+    private Date creationDate;
 
 }

@@ -8,11 +8,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Teacher {
@@ -30,5 +33,8 @@ public class Teacher {
 
     @OneToMany(mappedBy = "teacher")
     private List<Course> courses;
+
+    private Date creationDate;
+
 
 }

@@ -15,6 +15,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -42,5 +44,6 @@ public class User{
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private List<Role> roles;
+    private Date creationDate;
 
 }

@@ -10,17 +10,20 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long userId;
     @Column(nullable=false)
     @NotBlank(message = "first name is required")
@@ -28,11 +31,9 @@ public class Student {
     @Column(nullable=false)
     @NotBlank(message = "last name is required")
     private String lastName;
-
     @Column(nullable=false)
     @NotBlank(message = "contact is required")
     private String phone;
-
     @ManyToMany
     @JoinTable(
             name = "student_course",
@@ -40,6 +41,7 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private Set<Course> courses = new HashSet<>();
+    private Date creationDate;
 
     public Student(String firstName, String lastName, String phone) {
         this.firstName = firstName;
