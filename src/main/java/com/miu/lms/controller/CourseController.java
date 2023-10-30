@@ -1,7 +1,8 @@
 package com.miu.lms.controller;
 
 import com.miu.lms.constants.ApiController;
-import com.miu.lms.dto.course.CourseRequest;
+import com.miu.lms.dto.course.CourseDto;
+import com.miu.lms.dto.course.NewCourseRequest;
 import com.miu.lms.entity.Course;
 import com.miu.lms.exceptions.CourseNotFound;
 import com.miu.lms.service.CourseService;
@@ -19,20 +20,20 @@ public class CourseController {
         this.courseService = courseService;
     }
     @PostMapping("/register")
-    public ResponseEntity<Course> registerCourse(@RequestBody CourseRequest courseRequest) {
-        Course registeredCourse = courseService.registerCourse(courseRequest);
+    public ResponseEntity<CourseDto> registerCourse(@RequestBody NewCourseRequest courseRequest) {
+        CourseDto registeredCourse = courseService.registerCourse(courseRequest);
         return new ResponseEntity<>(registeredCourse, HttpStatus.CREATED);
     }
     @GetMapping("/{courseId}")
-    public ResponseEntity<CourseRequest> getCourse(@PathVariable Long courseId) throws CourseNotFound {
+    public ResponseEntity<CourseDto> getCourse(@PathVariable Long courseId) throws CourseNotFound {
         return ResponseEntity.ok(courseService.getCourseById(courseId));
     }
     @GetMapping
-    public ResponseEntity<List<CourseRequest>> getAllCourses() {
+    public ResponseEntity<List<CourseDto>> getAllCourses() {
         return new ResponseEntity<>(courseService.getAllCourses(), HttpStatus.OK);
     }
     @PutMapping("/{courseId}")
-    public ResponseEntity<CourseRequest> updateCourse(@PathVariable Long courseId, @RequestBody CourseRequest courseRequest) throws CourseNotFound {
+    public ResponseEntity<CourseDto> updateCourse(@PathVariable Long courseId, @RequestBody CourseDto courseRequest) throws CourseNotFound {
         return new ResponseEntity<>(courseService.updateCourse(courseId, courseRequest), HttpStatus.OK);
     }
     @DeleteMapping("/{courseId}")

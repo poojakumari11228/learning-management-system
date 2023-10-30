@@ -2,6 +2,7 @@ package com.miu.lms.service;
 
 import com.miu.lms.dto.teacher.NewTeacherRequest;
 import com.miu.lms.dto.teacher.TeacherDto;
+import com.miu.lms.exceptions.CourseNotFound;
 import com.miu.lms.exceptions.TeacherNotFound;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface TeacherService {
     TeacherDto getTeacherById(Long teacherId) throws TeacherNotFound;
 
     List<TeacherDto> getAllTeachers();
+
+    TeacherDto teachNewCourse(Long teacherId, Long courseId) throws CourseNotFound, TeacherNotFound;
 }

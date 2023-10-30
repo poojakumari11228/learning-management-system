@@ -1,5 +1,6 @@
 package com.miu.lms.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,14 +10,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class Teacher {
     @Id
@@ -30,7 +30,7 @@ public class Teacher {
     @NotBlank(message = "last name is required")
     private String lastName;
 
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
     private List<Course> courses;
 
     private String phone;
@@ -42,6 +42,16 @@ public class Teacher {
         this.lastName = lastName;
         this.creationDate = creationDate;
         this.phone = phone;
+    }
+
+    public Teacher() {
+        courses = new ArrayList<>();
+
+    }
+
+    public void teachCourse(Course newCourse){
+        newCourse.setTeacher(this);
+        courses.add(newCourse);
     }
 
 }

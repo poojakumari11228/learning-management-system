@@ -1,13 +1,13 @@
 package com.miu.lms.service.impl;
 
-import com.miu.lms.dto.course.CourseRequest;
+import com.miu.lms.dto.course.CourseDto;
+import com.miu.lms.dto.course.NewCourseRequest;
 import com.miu.lms.entity.Course;
 import com.miu.lms.exceptions.CourseNotFound;
+import com.miu.lms.mapper.CourseMapper;
 import com.miu.lms.repo.CourseRepo;
 import com.miu.lms.service.CourseService;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
@@ -17,20 +17,20 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepo courseRepo;
 
-
     public CourseServiceImpl(CourseRepo courseRepo) {
         this.courseRepo = courseRepo;
     }
 
 
     @Override
-    public Course registerCourse(CourseRequest courseRequest) {
+    public CourseDto registerCourse(NewCourseRequest courseRequest) {
         Course course = new Course(courseRequest.name(), courseRequest.code(), courseRequest.desc(),new Date());
-        return courseRepo.save(course);
+        courseRepo.save(course);
+        return CourseMapper.courseToDTO(course);
     }
 
     @Override
-    public CourseRequest updateCourse(Long courseId, CourseRequest courseRequest) throws CourseNotFound {
+    public CourseDto updateCourse(Long courseId, CourseDto courseRequest) throws CourseNotFound {
         Course existingCourse = courseRepo.findById(courseId)
                 .orElseThrow(()->new CourseNotFound(String.format("ERROR: Course with id %d not found.", courseId)));
 
@@ -38,8 +38,7 @@ public class CourseServiceImpl implements CourseService {
         existingCourse.setCode(courseRequest.code());
         existingCourse.setDescription(courseRequest.desc());
         courseRepo.save(existingCourse);
-
-        return new CourseRequest(existingCourse.getName(), existingCourse.getCode(), existingCourse.getDescription()) ;
+        return CourseMapper.courseToDTO(existingCourse) ;
     }
 
 
@@ -50,18 +49,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseRequest getCourseById(Long courseId) throws CourseNotFound {
+    public CourseDto getCourseById(Long courseId) throws CourseNotFound {
         return courseRepo.findById(courseId)
-                .map(c->new CourseRequest(c.getName(), c.getCode(), c.getDescription()))
+                .map(c->CourseMapper.courseToDTO(c))
                 .orElseThrow(()->new CourseNotFound(String.format("ERROR: Course with id %d not found.", courseId)));
 
     }
 
     @Override
-    public List<CourseRequest> getAllCourses() {
+    public List<CourseDto> getAllCourses() {
         return courseRepo.findAll(Sort.by("name"))
                 .stream()
-                .map(c->new CourseRequest(c.getName(), c.getCode(), c.getDescription()))
+                .map(c->CourseMapper.courseToDTO(c))
                 .toList();
     }
 

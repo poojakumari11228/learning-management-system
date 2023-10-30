@@ -2,6 +2,7 @@ package com.miu.lms.controller;
 import com.miu.lms.constants.ApiController;
 import com.miu.lms.dto.teacher.NewTeacherRequest;
 import com.miu.lms.dto.teacher.TeacherDto;
+import com.miu.lms.exceptions.CourseNotFound;
 import com.miu.lms.exceptions.TeacherNotFound;
 import com.miu.lms.service.TeacherService;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,11 @@ public class TeacherController {
     public ResponseEntity<Void> deleteTeacher(@PathVariable Long teacherId) throws TeacherNotFound {
         teacherService.deleteTeacher(teacherId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/{teacherId}/course/{courseId}")
+    public ResponseEntity<TeacherDto> addCourseToTeacher(@PathVariable Long teacherId, @PathVariable Long courseId) throws TeacherNotFound, CourseNotFound {
+        return new ResponseEntity<>(teacherService.teachNewCourse(teacherId, courseId), HttpStatus.CREATED);
     }
 
 
