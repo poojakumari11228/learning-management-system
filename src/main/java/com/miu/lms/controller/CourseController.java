@@ -3,7 +3,6 @@ package com.miu.lms.controller;
 import com.miu.lms.constants.ApiController;
 import com.miu.lms.dto.course.CourseDto;
 import com.miu.lms.dto.course.NewCourseRequest;
-import com.miu.lms.entity.Course;
 import com.miu.lms.exceptions.CourseNotFound;
 import com.miu.lms.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class CourseController {
         this.courseService = courseService;
     }
     @PostMapping("/register")
-    public ResponseEntity<CourseDto> registerCourse(@RequestBody NewCourseRequest courseRequest) {
+    public ResponseEntity<CourseDto> registerCourse(@RequestBody NewCourseRequest courseRequest) throws CourseNotFound {
         CourseDto registeredCourse = courseService.registerCourse(courseRequest);
         return new ResponseEntity<>(registeredCourse, HttpStatus.CREATED);
     }

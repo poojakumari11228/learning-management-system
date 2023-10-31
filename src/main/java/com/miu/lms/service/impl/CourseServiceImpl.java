@@ -23,8 +23,16 @@ public class CourseServiceImpl implements CourseService {
 
 
     @Override
-    public CourseDto registerCourse(NewCourseRequest courseRequest) {
-        Course course = new Course(courseRequest.name(), courseRequest.code(), courseRequest.desc(),new Date());
+    public CourseDto registerCourse(NewCourseRequest courseRequest) throws CourseNotFound {
+        Course course;
+        if(courseRequest.preReqId()!=null && courseRequest.preReqId()!=0) {
+            Course preReq = courseRepo.findById(courseRequest.preReqId())
+                    .orElseThrow(() -> new CourseNotFound(String.format("ERROR: Prerequisites Course with id %d not found.", courseRequest.preReqId())));
+            course = new Course(courseRequest.name(), courseRequest.code(), courseRequest.desc(),new Date(), preReq);
+
+        }else
+            course = new Course(courseRequest.name(), courseRequest.code(), courseRequest.desc(),new Date());
+
         courseRepo.save(course);
         return CourseMapper.courseToDTO(course);
     }
@@ -51,7 +59,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDto getCourseById(Long courseId) throws CourseNotFound {
         return courseRepo.findById(courseId)
-                .map(c->CourseMapper.courseToDTO(c))
+                .map(CourseMapper:: courseToDTO)
                 .orElseThrow(()->new CourseNotFound(String.format("ERROR: Course with id %d not found.", courseId)));
 
     }
@@ -60,7 +68,7 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseDto> getAllCourses() {
         return courseRepo.findAll(Sort.by("name"))
                 .stream()
-                .map(c->CourseMapper.courseToDTO(c))
+                .map(CourseMapper::courseToDTO)
                 .toList();
     }
 

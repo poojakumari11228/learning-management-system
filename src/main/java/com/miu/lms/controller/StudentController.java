@@ -4,6 +4,7 @@ import com.miu.lms.constants.ApiController;
 import com.miu.lms.dto.student.NewStudentRequest;
 import com.miu.lms.dto.student.StudentDto;
 import com.miu.lms.exceptions.CourseNotFound;
+import com.miu.lms.exceptions.CoursePrerequisitesNotMeet;
 import com.miu.lms.exceptions.StudentNotFound;
 import com.miu.lms.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,8 @@ public class StudentController {
     }
 
     @PostMapping("/{studentId}/course/enroll/{courseId}")
-    public ResponseEntity<StudentDto> enrollStudentInCourse(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId) throws CourseNotFound, StudentNotFound {
-        return ResponseEntity.ok(studentService.enrollInCourse(courseId, studentId));
+    public ResponseEntity<StudentDto> enrollStudentInCourse(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId) throws CourseNotFound, StudentNotFound, CoursePrerequisitesNotMeet {
+        return ResponseEntity.ok(studentService.enrollInCourse(studentId, courseId));
     }
 
     @PostMapping("/{studentId}/course/withdraw/{courseId}")

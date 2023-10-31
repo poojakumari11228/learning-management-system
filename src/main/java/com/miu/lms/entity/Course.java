@@ -56,6 +56,15 @@ public class Course {
         this.description = desc;
     }
 
+    public Course(String name, String code, String desc, Date date, Course preReq) {
+        this.name = name ;
+        this.code = code ;
+        this.creationDate= date;
+        this.description = desc;
+        this.prerequisites.add(preReq);
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

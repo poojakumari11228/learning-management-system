@@ -1,6 +1,9 @@
 package com.miu.lms.dto.student;
 
-import java.util.Date;
+import com.miu.lms.dto.course.CourseDto;
 
-public record StudentDto(Long id, String firstName, String lastName, String phone, Date creationDate) {
+import java.util.Date;
+import java.util.List;
+
+public record StudentDto(Long id, String firstName, String lastName, String phone, Date creationDate, List<CourseDto> enrolledCourses) {
 }

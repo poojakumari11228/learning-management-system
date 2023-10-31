@@ -1,6 +1,7 @@
 package com.miu.lms.advice;
 
 import com.miu.lms.exceptions.CourseNotFound;
+import com.miu.lms.exceptions.CoursePrerequisitesNotMeet;
 import com.miu.lms.exceptions.StudentNotFound;
 import com.miu.lms.exceptions.TeacherNotFound;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,14 @@ public class GlobalExceptionHandler {
                         error.getField(),
                         error.getDefaultMessage()
                 ));
+        return errorMessageMap;
+    }
+
+    @ExceptionHandler(CoursePrerequisitesNotMeet.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, String> handleCoursePrerequisitesNotMeet(CoursePrerequisitesNotMeet coursePrerequisitesNotMeet) {
+        Map<String , String> errorMessageMap = new HashMap<>();
+        errorMessageMap.put("errorMessage", coursePrerequisitesNotMeet.getMessage());
         return errorMessageMap;
     }
 

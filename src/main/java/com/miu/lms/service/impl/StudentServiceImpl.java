@@ -5,6 +5,7 @@ import com.miu.lms.dto.student.StudentDto;
 import com.miu.lms.entity.Course;
 import com.miu.lms.entity.Student;
 import com.miu.lms.exceptions.CourseNotFound;
+import com.miu.lms.exceptions.CoursePrerequisitesNotMeet;
 import com.miu.lms.exceptions.StudentNotFound;
 import com.miu.lms.mapper.StudentMapper;
 import com.miu.lms.repo.CourseRepo;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,7 +31,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDto registerStudent(NewStudentRequest studentDTO) {
-        Student student = new Student(studentDTO.firstName(), studentDTO.lastName(), studentDTO.phone());
+        Student student = new Student(studentDTO.firstName(), studentDTO.lastName(), studentDTO.phone(), new Date());
         studentRepository.save(student);
         return StudentMapper.studentToDTO(student);
 
@@ -68,12 +70,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentDto enrollInCourse(Long studentId, Long courseId) throws CourseNotFound, StudentNotFound {
+    public StudentDto enrollInCourse(Long studentId, Long courseId) throws CourseNotFound, StudentNotFound, CoursePrerequisitesNotMeet {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new StudentNotFound("Student not found with ID: " + studentId));
 
         Course course = courseRepo.findById(courseId)
                 .orElseThrow(() -> new CourseNotFound("Course not found with ID: " + courseId));
+
+        for (Course prerequisite : course.getPrerequisites()) {
+            if (!student.getCourses().contains(prerequisite)) {
+                throw new CoursePrerequisitesNotMeet("Course prerequisites for Course ID: " + prerequisite.getId() + " not met");
+            }
+        }
 
         student.enrollInCourse(course);
         studentRepository.save(student);
