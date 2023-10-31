@@ -1,10 +1,12 @@
 package com.miu.lms.controller;
 import com.miu.lms.constants.ApiController;
+import com.miu.lms.dto.course.CourseDto;
 import com.miu.lms.dto.teacher.NewTeacherRequest;
 import com.miu.lms.dto.teacher.TeacherDto;
 import com.miu.lms.exceptions.CourseNotFound;
 import com.miu.lms.exceptions.TeacherNotFound;
 import com.miu.lms.service.TeacherService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +16,6 @@ import java.util.List;
 public class TeacherController {
 
     private final TeacherService teacherService;
-
 
     public TeacherController(TeacherService teacherService){
         this.teacherService = teacherService;
@@ -45,10 +46,17 @@ public class TeacherController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/{teacherId}/course/{courseId}")
-    public ResponseEntity<TeacherDto> addCourseToTeacher(@PathVariable Long teacherId, @PathVariable Long courseId) throws TeacherNotFound, CourseNotFound {
+    @PostMapping("/{teacherId}/teach/course/{courseId}")
+    public ResponseEntity<TeacherDto> teachCourse(@PathVariable Long teacherId, @PathVariable Long courseId) throws TeacherNotFound, CourseNotFound {
         return new ResponseEntity<>(teacherService.teachNewCourse(teacherId, courseId), HttpStatus.CREATED);
     }
-
+    @PostMapping("/{teacherId}/withdraw/course/{courseId}")
+    public ResponseEntity<TeacherDto> withdrawCourse(@PathVariable Long teacherId, @PathVariable Long courseId) throws TeacherNotFound, CourseNotFound {
+        return new ResponseEntity<>(teacherService.withdrawCourse(teacherId, courseId), HttpStatus.CREATED);
+    }
+    @GetMapping("/{teacherId}/course")
+    public ResponseEntity<List<CourseDto>> getCoursesTaughtByTeacher(@PathVariable Long teacherId) throws TeacherNotFound {
+        return ResponseEntity.ok(teacherService.getCoursesTaughtByTeacher(teacherId));
+    }
 
 }

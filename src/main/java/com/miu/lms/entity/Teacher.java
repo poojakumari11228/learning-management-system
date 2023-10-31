@@ -49,10 +49,13 @@ public class Teacher {
         courses = new ArrayList<>();
 
     }
-
     public void teachCourse(Course newCourse){
         newCourse.setTeacher(this);
         courses.add(newCourse);
+    }
+    public void withDrawCourse(Course course){
+        course.setTeacher(null);
+        courses.remove(course);
     }
 
 }

@@ -1,22 +1,28 @@
 package com.miu.lms.service.impl;
 
 import com.miu.lms.constants.RoleType;
+import com.miu.lms.dto.course.CourseDto;
 import com.miu.lms.dto.teacher.NewTeacherRequest;
 import com.miu.lms.dto.teacher.TeacherDto;
 import com.miu.lms.entity.Course;
 import com.miu.lms.entity.Teacher;
 import com.miu.lms.exceptions.CourseNotFound;
 import com.miu.lms.exceptions.TeacherNotFound;
+import com.miu.lms.mapper.CourseMapper;
 import com.miu.lms.mapper.TeacherMapper;
 import com.miu.lms.repo.CourseRepo;
 import com.miu.lms.repo.TeacherRepo;
 import com.miu.lms.service.TeacherService;
 import com.miu.lms.service.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class TeacherServiceImpl implements TeacherService {
 
@@ -85,5 +91,27 @@ public class TeacherServiceImpl implements TeacherService {
         return TeacherMapper.teacherToDTO(teacher);
     }
 
+    @Override
+    public List<CourseDto> getCoursesTaughtByTeacher(Long teacherId) throws TeacherNotFound {
+
+        Teacher teacher = teacherRepo.findById(teacherId)
+                .orElseThrow(() -> new TeacherNotFound("Teacher not found with ID: " + teacherId));
+
+        return CourseMapper.courseListToDTOs(teacher.getCourses());
+
+    }
+    @Override
+    public TeacherDto withdrawCourse(Long teacherId, Long courseId) throws TeacherNotFound, CourseNotFound {
+
+        Teacher teacher = teacherRepo.findById(teacherId)
+                .orElseThrow(()->new TeacherNotFound(String.format("ERROR: Teacher with id %d not found.", teacherId)));
+
+        Course course = courseRepo.findById(courseId)
+                .orElseThrow(() -> new CourseNotFound(String.format("ERROR: Course with id %d not found.", courseId)));
+        teacher.withDrawCourse(course);
+        teacherRepo.save(teacher);
+
+        return TeacherMapper.teacherToDTO(teacher);
+    }
 
 }
