@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -55,4 +56,16 @@ public class Course {
         this.description = desc;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return id.equals(course.id) && name.equals(course.name) && code.equals(course.code) && description.equals(course.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, code, description);
+    }
 }

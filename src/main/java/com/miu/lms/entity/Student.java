@@ -48,4 +48,20 @@ public class Student {
         this.lastName = lastName;
         this.phone = phone;
     }
+
+    public void enrollInCourse(Course course){
+        if (!courses.contains(course)) {
+            courses.add(course);
+            course.getStudents().add(this);
+        }
+    }
+
+    public void withdrawFromCourse(Course course) {
+        if (courses.contains(course)) {
+            courses.remove(course);
+            course.getStudents().remove(this);
+        }
+    }
+
+
 }
