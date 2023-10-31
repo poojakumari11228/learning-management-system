@@ -43,11 +43,12 @@ public class Student {
     private Set<Course> courses = new HashSet<>();
     private Date creationDate;
 
-    public Student(String firstName, String lastName, String phone, Date creationDate) {
+    public Student(String firstName, String lastName, String phone, Date creationDate, Long userId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.creationDate = creationDate;
+        this.userId = userId;
     }
 
     public void enrollInCourse(Course course){

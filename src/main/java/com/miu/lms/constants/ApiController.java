@@ -8,7 +8,4 @@ public abstract class ApiController {
     public static final String COURSE_ENDPOINT = API_VERSION + "/course";
     public static final String STUDENT_ENDPOINT = API_VERSION + "/student";
 
-
-
-
 }

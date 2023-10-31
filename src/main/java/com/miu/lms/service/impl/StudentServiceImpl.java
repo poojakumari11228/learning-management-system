@@ -1,5 +1,6 @@
 package com.miu.lms.service.impl;
 
+import com.miu.lms.constants.RoleType;
 import com.miu.lms.dto.student.NewStudentRequest;
 import com.miu.lms.dto.student.StudentDto;
 import com.miu.lms.entity.Course;
@@ -11,6 +12,7 @@ import com.miu.lms.mapper.StudentMapper;
 import com.miu.lms.repo.CourseRepo;
 import com.miu.lms.repo.StudentRepo;
 import com.miu.lms.service.StudentService;
+import com.miu.lms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -22,16 +24,20 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService {
     private final StudentRepo studentRepository;
     private final CourseRepo courseRepo;
+    private final UserService userService;
 
     @Autowired
-    public StudentServiceImpl(StudentRepo studentRepository, CourseRepo courseRepo) {
+    public StudentServiceImpl(StudentRepo studentRepository, CourseRepo courseRepo, UserService userService) {
         this.studentRepository = studentRepository;
         this.courseRepo = courseRepo;
+        this.userService = userService;
     }
 
     @Override
     public StudentDto registerStudent(NewStudentRequest studentDTO) {
-        Student student = new Student(studentDTO.firstName(), studentDTO.lastName(), studentDTO.phone(), new Date());
+        Long userId = userService.createUser(studentDTO.email(), studentDTO.password(), RoleType.STUDENT);
+        Student student = new Student(studentDTO.firstName(), studentDTO.lastName(), studentDTO.phone(), new Date(), userId);
+
         studentRepository.save(student);
         return StudentMapper.studentToDTO(student);
 

@@ -1,4 +1,4 @@
 package com.miu.lms.dto.student;
 
-public record NewStudentRequest(String firstName, String lastName, String phone) {
+public record NewStudentRequest(String firstName, String lastName, String phone, String email, String password) {
 }

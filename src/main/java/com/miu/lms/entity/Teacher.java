@@ -37,11 +37,12 @@ public class Teacher {
 
     private Date creationDate;
 
-    public Teacher(String firstName, String lastName,String phone, Date creationDate) {
+    public Teacher(String firstName, String lastName,String phone, Date creationDate, Long userId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.creationDate = creationDate;
         this.phone = phone;
+        this.userId = userId;
     }
 
     public Teacher() {
