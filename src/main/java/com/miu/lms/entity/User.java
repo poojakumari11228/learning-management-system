@@ -63,6 +63,16 @@ public class User implements UserDetails {
         this.enabled = enabled;
         creationDate = new Date();
     }
+    public User(Long id, String email, String password, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled){
+        this.id = id;
+        this.password = password;
+        this.email = email;
+        this.accountNonLocked = accountNonLocked;
+        this.accountNonExpired = accountNonExpired;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.enabled = enabled;
+        creationDate = new Date();
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         String[] userRoles = roles.stream()

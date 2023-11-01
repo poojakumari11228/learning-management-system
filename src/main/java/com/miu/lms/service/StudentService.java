@@ -5,10 +5,12 @@ import com.miu.lms.dto.student.StudentDto;
 import com.miu.lms.exceptions.CourseNotFound;
 import com.miu.lms.exceptions.CoursePrerequisitesNotMeet;
 import com.miu.lms.exceptions.StudentNotFound;
+import com.miu.lms.exceptions.UserAlreadyExists;
+
 import java.util.List;
 
 public interface StudentService {
-        StudentDto registerStudent(NewStudentRequest studentDTO);
+        StudentDto registerStudent(NewStudentRequest studentDTO) throws UserAlreadyExists;
         StudentDto getStudentById(Long studentId) throws StudentNotFound;
 
         List<StudentDto> getAllStudents();

@@ -43,12 +43,24 @@ public class Teacher {
         this.creationDate = creationDate;
         this.phone = phone;
         this.userId = userId;
+        courses = new ArrayList<>();
     }
 
     public Teacher() {
         courses = new ArrayList<>();
 
     }
+
+    public Teacher(long id,String firstName, String lastName,String phone, Date creationDate, Long userId) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.creationDate = creationDate;
+        this.phone = phone;
+        this.userId = userId;
+        courses = new ArrayList<>();
+    }
+
     public void teachCourse(Course newCourse){
         newCourse.setTeacher(this);
         courses.add(newCourse);

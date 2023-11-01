@@ -6,6 +6,7 @@ import com.miu.lms.dto.student.StudentDto;
 import com.miu.lms.exceptions.CourseNotFound;
 import com.miu.lms.exceptions.CoursePrerequisitesNotMeet;
 import com.miu.lms.exceptions.StudentNotFound;
+import com.miu.lms.exceptions.UserAlreadyExists;
 import com.miu.lms.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class StudentController {
         this.studentService = studentService;
     }
     @PostMapping("/register")
-    public ResponseEntity<StudentDto> registerStudent(@RequestBody NewStudentRequest studentDTO) {
+    public ResponseEntity<StudentDto> registerStudent(@RequestBody NewStudentRequest studentDTO) throws UserAlreadyExists {
         return new ResponseEntity<>(studentService.registerStudent(studentDTO), HttpStatus.CREATED);
     }
 

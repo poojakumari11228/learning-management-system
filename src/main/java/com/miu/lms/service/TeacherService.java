@@ -5,10 +5,12 @@ import com.miu.lms.dto.teacher.NewTeacherRequest;
 import com.miu.lms.dto.teacher.TeacherDto;
 import com.miu.lms.exceptions.CourseNotFound;
 import com.miu.lms.exceptions.TeacherNotFound;
+import com.miu.lms.exceptions.UserAlreadyExists;
+
 import java.util.List;
 
 public interface TeacherService {
-    TeacherDto registerTeacher(NewTeacherRequest teacherDTO);
+    TeacherDto registerTeacher(NewTeacherRequest teacherDTO) throws UserAlreadyExists;
 
     TeacherDto updateTeacher(Long teacherId, TeacherDto teacherDTO) throws TeacherNotFound;
 

@@ -8,20 +8,17 @@ import com.miu.lms.entity.Course;
 import com.miu.lms.entity.Teacher;
 import com.miu.lms.exceptions.CourseNotFound;
 import com.miu.lms.exceptions.TeacherNotFound;
+import com.miu.lms.exceptions.UserAlreadyExists;
 import com.miu.lms.mapper.CourseMapper;
 import com.miu.lms.mapper.TeacherMapper;
 import com.miu.lms.repo.CourseRepo;
 import com.miu.lms.repo.TeacherRepo;
 import com.miu.lms.service.TeacherService;
 import com.miu.lms.service.UserService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -38,17 +35,18 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public TeacherDto registerTeacher(NewTeacherRequest teacherDTO) {
-        Long userId = userService.createUser(teacherDTO.email(), teacherDTO.password(), RoleType.TEACHER);
+    public TeacherDto registerTeacher(NewTeacherRequest teacherDTO) throws UserAlreadyExists {
 
+        Long userId = userService.createUser(teacherDTO.email(), teacherDTO.password(), RoleType.TEACHER);
         Teacher teacher = teacherRepo.save(new  Teacher(teacherDTO.firstName(),teacherDTO.lastName(),teacherDTO.phone(),new Date(), userId));
+        System.out.println(teacher);
         return TeacherMapper.teacherToDTO(teacher);
     }
     @Override
     public TeacherDto updateTeacher(Long teacherId, TeacherDto teacherDTO) throws TeacherNotFound {
 
         Teacher existingTeacher = teacherRepo.findById(teacherId)
-                .orElseThrow(()->new TeacherNotFound(String.format("ERROR: Course with id %d not found.", teacherId)));
+                .orElseThrow(()->new TeacherNotFound(String.format("ERROR: Teacher with id %d not found.", teacherId)));
 
         existingTeacher.setFirstName(teacherDTO.firstName());
         existingTeacher.setLastName(teacherDTO.lastName());

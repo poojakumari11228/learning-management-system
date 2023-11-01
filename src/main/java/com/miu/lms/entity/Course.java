@@ -64,6 +64,15 @@ public class Course {
         this.prerequisites.add(preReq);
     }
 
+    public Course(Long id, String name, String code, String desc, Date date, Course preReq) {
+        this.id = id;
+        this.name = name ;
+        this.code = code ;
+        this.creationDate= date;
+        this.description = desc;
+        this.prerequisites.add(preReq);
+    }
+
 
     @Override
     public boolean equals(Object o) {

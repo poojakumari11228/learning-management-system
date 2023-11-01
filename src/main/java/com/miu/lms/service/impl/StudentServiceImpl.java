@@ -8,6 +8,7 @@ import com.miu.lms.entity.Student;
 import com.miu.lms.exceptions.CourseNotFound;
 import com.miu.lms.exceptions.CoursePrerequisitesNotMeet;
 import com.miu.lms.exceptions.StudentNotFound;
+import com.miu.lms.exceptions.UserAlreadyExists;
 import com.miu.lms.mapper.StudentMapper;
 import com.miu.lms.repo.CourseRepo;
 import com.miu.lms.repo.StudentRepo;
@@ -34,7 +35,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentDto registerStudent(NewStudentRequest studentDTO) {
+    public StudentDto registerStudent(NewStudentRequest studentDTO) throws UserAlreadyExists {
         Long userId = userService.createUser(studentDTO.email(), studentDTO.password(), RoleType.STUDENT);
         Student student = new Student(studentDTO.firstName(), studentDTO.lastName(), studentDTO.phone(), new Date(), userId);
 

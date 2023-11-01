@@ -1,12 +1,13 @@
 package com.miu.lms.controller;
+
 import com.miu.lms.constants.ApiController;
 import com.miu.lms.dto.course.CourseDto;
 import com.miu.lms.dto.teacher.NewTeacherRequest;
 import com.miu.lms.dto.teacher.TeacherDto;
 import com.miu.lms.exceptions.CourseNotFound;
 import com.miu.lms.exceptions.TeacherNotFound;
+import com.miu.lms.exceptions.UserAlreadyExists;
 import com.miu.lms.service.TeacherService;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +22,12 @@ public class TeacherController {
         this.teacherService = teacherService;
     }
     @PostMapping("/register")
-    public ResponseEntity<TeacherDto> registerTeacher(@RequestBody NewTeacherRequest teacherDTO) {
+    public ResponseEntity<TeacherDto> registerTeacher(@RequestBody NewTeacherRequest teacherDTO) throws UserAlreadyExists {
         return new ResponseEntity<>(teacherService.registerTeacher(teacherDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/{teacherId}")
-    public ResponseEntity<TeacherDto> getTeacher(@PathVariable Long teacherId) throws TeacherNotFound {
+    public ResponseEntity<TeacherDto> getTeacherById(@PathVariable Long teacherId) throws TeacherNotFound {
         return ResponseEntity.ok(teacherService.getTeacherById(teacherId));
     }
 

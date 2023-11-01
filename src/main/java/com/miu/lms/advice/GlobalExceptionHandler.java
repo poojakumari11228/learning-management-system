@@ -4,6 +4,7 @@ import com.miu.lms.exceptions.CourseNotFound;
 import com.miu.lms.exceptions.CoursePrerequisitesNotMeet;
 import com.miu.lms.exceptions.StudentNotFound;
 import com.miu.lms.exceptions.TeacherNotFound;
+import com.miu.lms.exceptions.UserAlreadyExists;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -56,6 +57,14 @@ public class GlobalExceptionHandler {
     public Map<String, String> handleCoursePrerequisitesNotMeet(CoursePrerequisitesNotMeet coursePrerequisitesNotMeet) {
         Map<String , String> errorMessageMap = new HashMap<>();
         errorMessageMap.put("errorMessage", coursePrerequisitesNotMeet.getMessage());
+        return errorMessageMap;
+    }
+
+    @ExceptionHandler(UserAlreadyExists.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleUserAlreadyExistst(UserAlreadyExists userAlreadyExists) {
+        Map<String , String> errorMessageMap = new HashMap<>();
+        errorMessageMap.put("errorMessage", userAlreadyExists.getMessage());
         return errorMessageMap;
     }
 
