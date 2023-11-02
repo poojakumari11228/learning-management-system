@@ -39,7 +39,10 @@ public class WebApiSecurityConfig {
                         auth -> auth.requestMatchers(ApiController.AUTHENTICATE_ENDPOINT+"/**").permitAll()
                                 .requestMatchers(ApiController.COURSE_ENDPOINT+"/**").hasAnyAuthority("ADMIN")
                                 .requestMatchers(ApiController.STUDENT_ENDPOINT+"/**").hasAnyAuthority("ADMIN", "STUDENT")
+                                .requestMatchers(ApiController.STUDENT_ENDPOINT+"/register").permitAll()
                                 .requestMatchers(ApiController.TEACHER_ENDPOINT+"/**").hasAnyAuthority("ADMIN", "TEACHER")
+                                .requestMatchers(ApiController.TEACHER_ENDPOINT+"/register").permitAll()
+
                 )
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
