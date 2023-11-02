@@ -16,7 +16,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(CourseNotFound.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handleCourseNotFoundException(CourseNotFound courseNotFoundException) {
         Map<String , String> errorMessageMap = new HashMap<>();
         errorMessageMap.put("errorMessage", courseNotFoundException.getMessage());
