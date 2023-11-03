@@ -33,6 +33,8 @@ class TeacherServiceImplTest {
     private TeacherRepo teacherRepo;
     @Mock
     private CourseRepo courseRepo;
+    @Mock
+    private UserRepository userRepository;
 
     @InjectMocks
     private TeacherServiceImpl teacherService;
@@ -71,8 +73,6 @@ class TeacherServiceImplTest {
         Long teacherId = 1L;
 
         Teacher existingTeacher = new Teacher(teacherId, "John", "Doe", "123456", new Date(), 1L);
-
-
         when(teacherRepo.findById(teacherId)).thenReturn(Optional.of(existingTeacher));
 
         assertDoesNotThrow(() -> teacherService.deleteTeacher(teacherId));
