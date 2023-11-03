@@ -1,11 +1,16 @@
 package com.miu.lms;
 
+import com.miu.lms.entity.Role;
+import com.miu.lms.entity.User;
 import com.miu.lms.repo.RoleRepository;
 import com.miu.lms.repo.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class Application implements Runnable {
@@ -32,7 +37,7 @@ public class Application implements Runnable {
 
 	@PostConstruct
 	public void initAdminUser() {
-		/*var adminUser = userRepository.findByEmail("admin@lms.com");
+		var adminUser = userRepository.findByEmail("admin@lms.com");
 		if(adminUser.isEmpty()) {
 			List<Role> listAdminRoles = new ArrayList<>();
 			var adminRole = roleRepository.findByRole("ADMIN");
@@ -48,6 +53,6 @@ public class Application implements Runnable {
 
 			newAdminUser.setRoles(listAdminRoles);
 			userRepository.save(newAdminUser);
-		}*/
+		}
 	}
 }
