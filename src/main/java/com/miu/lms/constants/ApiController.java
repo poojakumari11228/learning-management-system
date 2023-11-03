@@ -1,7 +1,7 @@
 package com.miu.lms.constants;
 
 public abstract class ApiController {
-    private static final String API_VERSION = "/lms-system.azurewebsites.net/api/v1";
+    private static final String API_VERSION = "/api/v1";
 
     public static final String AUTHENTICATE_ENDPOINT = API_VERSION + "/authenticate";
     public static final String TEACHER_ENDPOINT = API_VERSION + "/teacher";
