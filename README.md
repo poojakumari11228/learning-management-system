@@ -7,3 +7,6 @@ Learning Management System (LMS) Using SpringBoot, JWT Token based authenticatio
 
 # Functional Requirements: 
 [click here to read](https://github.com/poojakumari11228/learning-management-system/blob/main/FuntionalRequirements.md)
+
+# Sample Requests:
+[click here for Postman Collection](https://github.com/poojakumari11228/learning-management-system/blob/main/LMS.postman_collection.json)
