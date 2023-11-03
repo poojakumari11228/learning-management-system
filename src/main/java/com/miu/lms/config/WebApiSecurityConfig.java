@@ -4,6 +4,7 @@ import com.miu.lms.constants.ApiController;
 import com.miu.lms.filter.JWTAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -39,7 +40,7 @@ public class WebApiSecurityConfig {
                         auth -> auth.requestMatchers(ApiController.AUTHENTICATE_ENDPOINT+"/**").permitAll()
                                 .requestMatchers(ApiController.COURSE_ENDPOINT+"/**").hasAnyAuthority("ADMIN")
                                 .requestMatchers(ApiController.STUDENT_ENDPOINT+"/**").hasAnyAuthority("ADMIN", "STUDENT")
-                                .requestMatchers(ApiController.STUDENT_ENDPOINT+"/register").permitAll()
+                                .requestMatchers(HttpMethod.POST, ApiController.STUDENT_ENDPOINT+"/register").permitAll()
                                 .requestMatchers(ApiController.TEACHER_ENDPOINT+"/**").hasAnyAuthority("ADMIN", "TEACHER")
                                 .requestMatchers(ApiController.TEACHER_ENDPOINT+"/register").permitAll()
 
