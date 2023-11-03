@@ -13,6 +13,7 @@ import com.miu.lms.mapper.CourseMapper;
 import com.miu.lms.mapper.TeacherMapper;
 import com.miu.lms.repo.CourseRepo;
 import com.miu.lms.repo.TeacherRepo;
+import com.miu.lms.repo.UserRepository;
 import com.miu.lms.service.TeacherService;
 import com.miu.lms.service.UserService;
 import org.springframework.data.domain.Sort;
@@ -26,12 +27,14 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeacherRepo teacherRepo;
     private final CourseRepo courseRepo;
     private final UserService userService;
+    private final UserRepository userRepository;
 
 
-    public TeacherServiceImpl(TeacherRepo teacherRepo, CourseRepo courseRepo, UserService userService) {
+    public TeacherServiceImpl(TeacherRepo teacherRepo, CourseRepo courseRepo, UserService userService, UserRepository userRepository) {
         this.teacherRepo = teacherRepo;
         this.courseRepo = courseRepo;
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -59,7 +62,9 @@ public class TeacherServiceImpl implements TeacherService {
     public void deleteTeacher(Long teacherId) throws TeacherNotFound {
          Teacher existingTeacher = teacherRepo.findById(teacherId)
                  .orElseThrow(()->new TeacherNotFound(String.format("ERROR: Teacher with id %d not found.", teacherId)));
-          teacherRepo.delete(existingTeacher);
+        long userId = existingTeacher.getUserId();
+        userRepository.deleteById(userId);
+         teacherRepo.delete(existingTeacher);
      }
     @Override
     public TeacherDto getTeacherById(Long teacherId) throws TeacherNotFound {

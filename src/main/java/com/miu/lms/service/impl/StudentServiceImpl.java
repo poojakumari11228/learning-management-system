@@ -12,6 +12,7 @@ import com.miu.lms.exceptions.UserAlreadyExists;
 import com.miu.lms.mapper.StudentMapper;
 import com.miu.lms.repo.CourseRepo;
 import com.miu.lms.repo.StudentRepo;
+import com.miu.lms.repo.UserRepository;
 import com.miu.lms.service.StudentService;
 import com.miu.lms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,15 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepo studentRepository;
     private final CourseRepo courseRepo;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public StudentServiceImpl(StudentRepo studentRepository, CourseRepo courseRepo, UserService userService) {
+    public StudentServiceImpl(StudentRepo studentRepository, CourseRepo courseRepo, UserService userService,
+                              UserRepository userRepository) {
         this.studentRepository = studentRepository;
         this.courseRepo = courseRepo;
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -73,7 +77,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void deleteStudent(Long studentId) throws StudentNotFound {
         Student existingStudent = studentRepository.findById(studentId).orElseThrow(()->new StudentNotFound(String.format("ERROR: Student with id %d not found.", studentId)));
+        long userId = existingStudent.getUserId();
         studentRepository.delete(existingStudent);
+        userRepository.deleteById(userId);
+
     }
 
     @Override
