@@ -1,6 +1,10 @@
 # learning-management-system
 
-Learning Management System (LMS) Using SpringBoot, JWT Token based authentication and Authorization, MySQL, Docker, jUnit and Mocktio
+Learning Management System (LMS) Using SpringBoot, JWT Token-based authentication and Authorization, MySQL, Docker, jUnit and Mocktio
+
+# Deployed at: https://lms-system.azurewebsites.net/
+
+Refer to postman collection, for each request url
 
 # Problem Statement: 
 [click here to read](https://github.com/poojakumari11228/learning-management-system/blob/main/Project-ProblemStatement.pdf)
